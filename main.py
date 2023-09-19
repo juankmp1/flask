@@ -1,6 +1,6 @@
 from flask import request, make_response, redirect, render_template, session,flash
 import unittest
-from flask_login import login_required
+from flask_login import login_required,current_user
 
 from flask_bootstrap import Bootstrap
 from app.forms import LoginForm
@@ -43,12 +43,13 @@ def index():
 
     return response
 
-@login_required
+
 @app.route('/hello', methods=['GET'])
+@login_required
 def hello():
     user_ip= session.get('user_ip')
     
-    username = session.get('username')
+    username = current_user.id
     context = {
         'user_ip':user_ip,
         'todos': get_todos(user_id = username),       
